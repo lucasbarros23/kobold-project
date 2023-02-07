@@ -19,7 +19,7 @@ resource "aws_instance" "machine" {
   ami = data.aws_ami.ubuntu.id
 
     tags = {
-    name     = "${var.tag_name}${count.index + 1}"
+    name     = "kobold-test-instance-${count.index + 1}"
   }
          instance_type =  var.instance
          count = var.quantity
