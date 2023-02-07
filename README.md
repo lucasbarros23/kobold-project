@@ -43,6 +43,10 @@ Exemplo não recomendado.
 count = 4
 
 
+Fontes como boas práticas
+https://cloud.google.com/docs/terraform/best-practices-for-terraform?hl=pt-br
+https://www.terraform-best-practices.com/v/ptbr/
+
 O código desenvolvido tem como output a criação de:
 
 2 máquinas virtuais com o nome de kobold-test-instance-1 e kobold-test-instance-2 (a contagem é feita através da função count.index + 1)
@@ -50,3 +54,8 @@ O código desenvolvido tem como output a criação de:
 regras de segurança a nível de máquina 
 portas 443 a nível ingress liberada
 porta 22 a nível ingress, anexada ao código no formato comentado, para o uso é necessário descomentar.
+
+
+Anexei no projeto um pdf com o nome de kobold-cenarios 
+
+(FALANDO SOBRE O PDF) A nível de código não foi desenvolvido os 2 últimos cenários, apenas o primeiro. Mas gostaria de explicitar minha lógica em formato de diagrama nesses 3 cenários, visto que são cenários que são colocados no dia a dia. 
