@@ -9,8 +9,3 @@ variable quantity {
 variable namesg {
         default = "kobold-test-sg"
 }
-
-variable tag_name {
-  type = string
-  default = "kobold-test-instance-"
-}
