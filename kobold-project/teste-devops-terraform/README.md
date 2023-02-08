@@ -1,84 +1,34 @@
-# Teste Devops Terraform
+Bom dia,
 
-Este repositório propõe um teste para avaliação de conhecimentos em Devops e
-Terraform na nuvem da AWS. O código do repositório define uma infraestrutura de
-exemplo sobre a qual você deve implementar as mudanças solicitadas. O teste é
-dividido em três partes, sendo as duas primeiras obrigatórias e a terceira
-opcional.
+Me chamo Lucas Rodrigues Barros, o intuito desse documento é mostrar a lógica que utilizei, seguindo as regras impostas pelo tutor.
 
-A primeira parte consiste em provisionar o ambiente de avaliação. A segunda
-em fazer uma pequena alteração na infraestrutura. A terceira consiste em
-reescrever o código de forma que fique mais fácil de manter.
+*A primeira modificação que realizei foi referente a organização de arquivos do terraform, a segregação utilizada foi a seguinte, isso facilita a reutilização e facil entendimento da infraestrutura, trazendo clareza para novos SRES ou DevOps, diminuindo as chances de incidentes em caso de uma alteração não correta.
 
-Não existe uma única solução para o problema proposto. Você deve analisar
-o código existente e fazer as alterações necessárias para atender cada questão.
+Exemplo correto: main.tf - chame módulos, locais e fontes de dados para criar todos os recursos. variables.tf - contém declarações de variáveis utilizadas em main.tf. outputs.tf - contém saídas dos recursos criados em main.tf. versions.tf - contém requisitos de versão para Terraform e provedores. networks.tf - contém requesitos de redes e segurança
 
-## Parte I: Provisionamento do ambiente de avaliação
+Exemplo não recomendado main.tf - contemplando todos os arquivos de configuração (variables,outputs,versions,networks,main)
 
-O ambiente de avaliação já está definido no código do repositório, porém não
-está provisionado, isto é, não foi criado na AWS. Você deve usar as credenciais
-de acesso à AWS que lhe foram fornecidas para provisionar o ambiente de
-avaliação usando o código Terraform aqui definido. Para tanto, você deve:
+*A segunda modificação que realizei foi referente ao nome dos recursos, utilizei nome single, para facilitação de leitura e escrita de código
 
-* Instalar a versão mais recente do Terraform
-   (https://www.terraform.io/downloads.html)
-* Instalar e configurar o AWS CLI usando as credenciais da AWS lhe foram
-  fornecidas
-  (https://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-install.html)
-* Inicializar e aplicar o código Terraform para provisionar o ambiente de
-  avaliação na AWS (https://www.terraform.io/docs/commands/index.html)
+Exemplo correto: resource "aws_instance" "machine"
 
-Como resultado da aplicação do código Terraform, você deve ter dois recursos
-criados na AWS:
+Exemplo não recomendado: resource "aws_instance" "machine_teste_prod"
 
-* Uma instância EC2 com o nome `kobold-test-instance`
-* Um security group com o nome `kobold-test-sg`
+*Terceira modificação foi referente as variaveis, em caso de alteração de valores a alteração será feita diretamente no arquivo variables e não no main.tf (80% do código está nessa segmentação)
 
-## Parte II: Alteração na infraestrutura
+Exemplo correto:
 
-Nesta parte do teste assume-se que o ambiente de avaliação já está provisionado.
-Você deve fazer uma mudança na infraestrutura de forma que, depois de aplicada,
-tenha-se o seguinte resultado:
+variables.tf variable quantity { default = "4" }
+main.tf count = var.quantity
+Exemplo não recomendado.
 
-* Duas instâncias EC2 com os nomes `kobold-test-instance-1` e
-  `kobold-test-instance-2`
-* Uma nova regra no security group `kobold-test-sg` aceitando conexões SSH de
-  qualquer IP
+main.tf count = 4
+Fontes como boas práticas https://cloud.google.com/docs/terraform/best-practices-for-terraform?hl=pt-br https://www.terraform-best-practices.com/v/ptbr/
 
-Você deve:
-* Criar um _commit_ com as alterações necessárias para atender a esta parte do
-  teste
-* Aplicar as alterações na infraestrutura usando o Terraform
+O código desenvolvido tem como output a criação de:
 
-## Parte III: Refatoração do código (opcional)
+2 máquinas virtuais com o nome de kobold-test-instance-1 e kobold-test-instance-2 (a contagem é feita através da função count.index + 1) 1 security group com o nome de kobold-test-sg regras de segurança a nível de máquina portas 443 a nível ingress liberada porta 22 a nível ingress, anexada ao código no formato comentado, para o uso é necessário descomentar.
 
-Nesta parte do teste você deve reescrever o código Terraform de forma que seja
-mais fácil para outra pessoa mantê-lo no futuro. Considere:
+Anexei no projeto um pdf com o nome de kobold-cenarios
 
-* Organização e nomenclatura dos recursos
-* Repetição/reuso de código
-* Documentação/comentários
-
-Não existe uma única solução. Você pode usar qualquer recurso do Terraform para
-atender a esta parte do teste. Crie um _commit_ com as alterações que julgar
-necessárias.
-
-Caso decida por fazer esta parte do teste, você deve:
-* Criar um _commit_ com as alterações necessárias para atender a esta parte do
-  teste
-* Aplicar as alterações na infraestrutura usando o Terraform
-
-## Entrega e avaliação do teste
-
-A entrega do teste consiste no próprio repositório Git com os _commits_ feitos
-e na aplicação das alterações na infraestrutura. Você deve enviar o repositório
-Git para o e-mail `grupo.ti@kobold.com.br` com o assunto
-`Teste Devops Terraform`. Atente-se para enviar o diretório `.git` junto com o
-repositório.
-
-A avaliação do teste será feita através de uma video-chamada com um ou mais
-membros do grupo de TI da Kobold. Durante a video-chamada você terá a
-oportunidadede nos mostrar o que você fez e explicar como você fez. A idéia é
-fazer um bate papo informal a sua abordagem para resolver o problema proposto.
-
-Boa sorte!
+(FALANDO SOBRE O PDF) A nível de código não foi desenvolvido os 2 últimos cenários, apenas o primeiro. Mas gostaria de explicitar minha lógica em formato de diagrama nesses 3 cenários, visto que são cenários que são colocados no dia a dia.
